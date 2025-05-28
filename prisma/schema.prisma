@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  username     String    @unique
+  password     String
+  contents     Content[]
+}
+
+model Content {
+  id             Int             @id @default(autoincrement())
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
+  type           ContentType
+  shortLink      String          @unique
+  expirationTime DateTime?
+  createdAt      DateTime        @default(now())
+
+  linkContent    LinkContent?
+  textSnippet    TextSnippet?
+  imageContent   ImageContent?
+}
+
+model LinkContent {
+  contentId Int    @id
+  longLink  String
+
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+model TextSnippet {
+  contentId Int    @id
+  text      String
+
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+model ImageContent {
+  contentId Int    @id
+  imageData Bytes
+
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+enum ContentType {
+  text
+  link
+  image
+}

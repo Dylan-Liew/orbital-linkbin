@@ -8,45 +8,41 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
-  username     String    @unique
-  password     String
-  contents     Content[]
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  username String    @unique
+  password String
+  contents Content[]
 }
 
 model Content {
-  id             Int             @id @default(autoincrement())
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             Int           @id @default(autoincrement())
   userId         Int
   type           ContentType
-  shortLink      String          @unique
+  shortLink      String        @unique
   expirationTime DateTime?
-  createdAt      DateTime        @default(now())
-
+  createdAt      DateTime      @default(now())
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imageContent   ImageContent?
   linkContent    LinkContent?
   textSnippet    TextSnippet?
-  imageContent   ImageContent?
 }
 
 model LinkContent {
-  contentId Int    @id
+  contentId Int     @id
   longLink  String
-
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 
 model TextSnippet {
-  contentId Int    @id
+  contentId Int     @id
   text      String
-
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 
 model ImageContent {
-  contentId Int    @id
+  contentId Int     @id
   imageData Bytes
-
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 

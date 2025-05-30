@@ -17,7 +17,7 @@ A unified platform to share links, images, and text—fast and effortlessly.
 
 - **Frontend:** ReactJS, TailwindCSS
 - **Backend:** NextJS API routes
-- **Database:** MySQL with Prisma ORM
+- **Database:** PostgreSQL with Prisma ORM
 - **Authentication:** JWT
 - **Deployment:** Vercel
 - **Testing:** Jest

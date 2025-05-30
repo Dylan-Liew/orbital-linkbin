@@ -50,9 +50,9 @@ A unified platform to share links, images, and text—fast and effortlessly.
 1. **Install PostgreSQL**  
    Download and install PostgreSQL from https://www.postgresql.org/download/windows/
 2. **Create Database**  
-   Use pgAdmin to create a new database name `linkbin_dev`
+   Use pgAdmin to create a new database name `linkbin_dev` and start the database
 3. **Configure Environment**  
-   Set up your database connection string in `.env`:
+   Set up your database connection string (change username, password to your own) in `.env`:
    ```
    DATABASE_URL="postgresql://username:password@localhost:5432/linkbin_dev"
    ```
@@ -65,7 +65,7 @@ A unified platform to share links, images, and text—fast and effortlessly.
 5. **Seed Database (Optional)**  
    Add test data to your database:
    ```
-   npm run db:seed
+   npm run seed
    ```
    This creates a test user with:
    - Username: `test_user`

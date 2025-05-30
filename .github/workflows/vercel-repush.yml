@@ -1,0 +1,25 @@
+name: Re-push for Vercel Deploy
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  repush:
+    if: github.actor != 'x44ylan'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git config
+        run: |
+          git config user.name "x44ylan"
+          git config user.email "dylanliew0503@gmail.com"
+
+      - name: Dummy commit to re-trigger Vercel deployment
+        run: |
+          git commit --allow-empty -m "chore(deploy): trigger Vercel redeploy"
+          git push

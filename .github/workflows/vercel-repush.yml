@@ -3,11 +3,14 @@ name: Re-push for Vercel Deploy
 on:
   push:
     branches:
-      - main 
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   repush:
-    if: github.actor != 'x44ylan'
+    if: github.actor != 'dylan-liew'
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +19,13 @@ jobs:
 
       - name: Set up Git config
         run: |
-          git config user.name "x44ylan"
+          git config user.name "dylan-liew"
           git config user.email "dylanliew0503@gmail.com"
 
-      - name: Dummy commit to re-trigger Vercel deployment
+      - name: Push dummy commit to trigger Vercel redeploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git commit --allow-empty -m "chore(deploy): trigger Vercel redeploy"
-          git push
+          git remote set-url origin https://dylan-liew:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git push origin main

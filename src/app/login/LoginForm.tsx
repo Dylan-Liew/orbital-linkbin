@@ -32,7 +32,7 @@ export default function LoginForm() {
         throw new Error(data.error || 'Login failed');
       }
 
-      localStorage.setItem('token', data.token);
+      document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
       router.push('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
@@ -45,7 +45,7 @@ export default function LoginForm() {
     <div className="min-h-screen flex">
       <div className="hidden md:block relative w-1/2 h-screen">
         <Image
-          src="/home_image.png"
+          src="/auth.jpg"
           alt="Home image"
           fill
           className="object-cover"

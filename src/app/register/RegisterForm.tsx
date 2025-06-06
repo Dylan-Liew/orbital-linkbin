@@ -41,7 +41,12 @@ export default function RegisterForm() {
         throw new Error(data.error || 'Registration failed');
       }
 
-      router.push('/login');
+      if (data.token) {
+        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
+        router.push('/dashboard');
+      } else {
+        router.push('/login');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
@@ -53,7 +58,7 @@ export default function RegisterForm() {
     <div className="min-h-screen flex">
       <div className="hidden md:block relative w-1/2 h-screen">
         <Image
-          src="/home_image.png"
+          src="/auth.jpg"
           alt="Home image"
           fill
           className="object-cover"

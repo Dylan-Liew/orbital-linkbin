@@ -1,0 +1,17 @@
+meta {
+  name: Snippet
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/api/snippet
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "hello\nworld"
+  }
+}

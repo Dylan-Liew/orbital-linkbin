@@ -1,0 +1,17 @@
+meta {
+  name: Link
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/link
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  }
+}

@@ -1,7 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { nanoid } from 'nanoid';
+import { PrismaClient } from '@prisma/client';
+import { jwtVerify } from 'jose';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.substring(7);
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    const userId = payload.userId as number;
+
     const formData = await request.formData();
     const image = formData.get('image') as File;
     
@@ -19,8 +37,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const imageId = "xxx";
-    const imageLink = `https://sample/s/${imageId}`;
+    const imageId = nanoid(6);
+    const imageData = Buffer.from(await image.arrayBuffer());
+    
+    await prisma.content.create({
+      data: {
+        userId: userId,
+        type: 'image',
+        shortLink: imageId,
+        imageContent: {
+          create: {
+            imageData: imageData
+          }
+        }
+      }
+    });
+    
+    const imageLink = `${process.env.BASE_URL}/s/${imageId}`;
     
     return NextResponse.json({
       success: true,

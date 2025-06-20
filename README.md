@@ -56,6 +56,7 @@ A unified platform to share links, images, and text—fast and effortlessly.
    ```
    DATABASE_URL="postgresql://username:password@localhost:5432/linkbin_dev"
    JWT_SECRET="enter_your_secret_key"
+   BASE_URL="http://localhost:3000"
    ```
 4. **Initialize Database**  
    Run the initial migration:

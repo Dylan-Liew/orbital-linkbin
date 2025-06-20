@@ -55,6 +55,7 @@ A unified platform to share links, images, and text—fast and effortlessly.
    Set up your database connection string (change username, password to your own) in `.env`:
    ```
    DATABASE_URL="postgresql://username:password@localhost:5432/linkbin_dev"
+   JWT_SECRET="enter_your_secret_key"
    ```
 4. **Initialize Database**  
    Run the initial migration:

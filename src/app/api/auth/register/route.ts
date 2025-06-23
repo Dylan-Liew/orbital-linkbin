@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import prisma from '@/lib/prisma';
 
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function validatePassword(password: string): boolean {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return passwordRegex.test(password);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -9,7 +19,21 @@ export async function POST(request: NextRequest) {
 
     if (!username || !email || !password || !confirmPassword) {
       return NextResponse.json(
-        { error: 'Invalid request' },
+        { error: 'All fields are required' },
+        { status: 400 }
+      );
+    }
+
+    if (!validateEmail(email)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid email address' },
+        { status: 400 }
+      );
+    }
+
+    if (!validatePassword(password)) {
+      return NextResponse.json(
+        { error: 'Weak Password' },
         { status: 400 }
       );
     }
@@ -43,7 +67,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const saltRounds = 10;
+    const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await prisma.user.create({

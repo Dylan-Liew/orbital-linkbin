@@ -1,5 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+import TextContentHighlight from './TextContentHighlight';
 
 async function getContent(id: string) {
   try {
@@ -35,33 +37,54 @@ export default async function SharePage({ params }: { params: Promise<{ id: stri
   }
   
   return (
-    <div>
-      {content.type === 'text' && (
-        <div>
-          <pre>
-            {content.data}
-          </pre>
-        </div>
-      )}
+    <>
+      <nav className="bg-white shadow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16">
+              <div className="flex items-center">
+                <h1 className="text-xl font-bold text-gray-900">LinkBin</h1>
+              </div>
+              <div className="flex items-center">
+              <Link 
+                href="/dashboard" 
+                className="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700"
+              >
+                Create your own
+              </Link>
+              </div>
+            </div>
+          </div>
+      </nav>
       
-      {content.type === 'image' && (
-        <div>
-          <Image
-            src={content.imageUrl}
-            alt="Shared content"
-            width={800}
-            height={600}
-            style={{ maxWidth: '100%', height: 'auto' }}
-            unoptimized
-          />
-        </div>
-      )}
       
-      {content.createdAt && (
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '20px' }}>
-          Created: {new Date(content.createdAt).toLocaleString()}
-        </p>
-      )}
-    </div>
+      <div className="max-w-5xl mx-auto p-6">
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          {content.type === 'text' && (
+            <div className="p-1">
+              <TextContentHighlight code={content.data} />
+            </div>
+          )}
+          
+          {content.type === 'image' && (
+            <div className="p-6 flex justify-center">
+              <Image
+                src={content.imageUrl}
+                alt="Shared content"
+                width={600}
+                height={600}
+                style={{ maxWidth: '100%', height: 'auto' }}
+                unoptimized
+              />
+            </div>
+          )}
+        </div>
+        
+        {content.createdAt && (
+          <p className="text-gray-500 text-xs mt-4">
+            Created: {new Date(content.createdAt).toLocaleString()}
+          </p>
+        )}
+      </div>
+    </>
   );
 }

@@ -30,12 +30,14 @@ export async function POST(request: NextRequest) {
     }
     
     const shortId = nanoid(6);
-    
+    const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
     await prisma.content.create({
       data: {
         userId: userId,
         type: 'link',
         shortLink: shortId,
+        expirationTime: expirationTime,
         linkContent: {
           create: {
             longLink: url

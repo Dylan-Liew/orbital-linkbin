@@ -72,7 +72,7 @@ A unified platform to share links, images, and text—fast and effortlessly.
    This creates a test user with:
    - Username: `test_user`
    - Email: `test_user@linkbin.com`
-   - Password: `12345678`
+   - Password: `P@ssw0rd`
 
 6. **View Database**  
    Open Prisma Studio to manage your database:

@@ -25,14 +25,19 @@ export async function GET(
         { status: 404 }
       );
     }
-    
+
     if (content.expirationTime && content.expirationTime < new Date()) {
       return NextResponse.json(
         { error: 'Content has expired' },
         { status: 410 }
       );
     }
-    
+
+    await prisma.content.update({
+      where: { id: content.id },
+      data: { viewCount: { increment: 1 } }
+    });
+
     if (content.type === 'image' && content.imageContent) {
       return new NextResponse(content.imageContent.imageData, {
         headers: {
@@ -40,7 +45,7 @@ export async function GET(
         },
       });
     }
-    
+
     return NextResponse.json({
       type: content.type,
       data: content.textSnippet?.text || content.linkContent?.longLink,

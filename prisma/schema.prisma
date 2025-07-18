@@ -22,6 +22,7 @@ model Content {
   shortLink      String        @unique
   expirationTime DateTime?
   createdAt      DateTime      @default(now())
+  viewCount      Int           @default(0)
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   imageContent   ImageContent?
   linkContent    LinkContent?

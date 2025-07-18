@@ -1,11 +1,11 @@
 meta {
-  name: Link
+  name: Change Usernamex
   type: http
-  seq: 4
+  seq: 1
 }
 
 post {
-  url: {{host}}/api/link
+  url: {{host}}/api/profile/change_username
   body: json
   auth: bearer
 }
@@ -16,6 +16,6 @@ auth:bearer {
 
 body:json {
   {
-    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    "newUsername": "any new name"
   }
 }

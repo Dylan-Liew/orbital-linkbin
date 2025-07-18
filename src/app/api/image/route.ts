@@ -39,12 +39,14 @@ export async function POST(request: NextRequest) {
 
     const imageId = nanoid(6);
     const imageData = Buffer.from(await image.arrayBuffer());
-    
+    const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
     await prisma.content.create({
       data: {
         userId: userId,
         type: 'image',
         shortLink: imageId,
+        expirationTime: expirationTime,
         imageContent: {
           create: {
             imageData: imageData

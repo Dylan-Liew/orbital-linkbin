@@ -1,11 +1,11 @@
 meta {
-  name: Link
+  name: Delete Shared
   type: http
-  seq: 4
+  seq: 3
 }
 
-post {
-  url: {{host}}/api/link
+delete {
+  url: {{host}}/api/s
   body: json
   auth: bearer
 }
@@ -16,6 +16,6 @@ auth:bearer {
 
 body:json {
   {
-    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    "ids": [1, 2, 3]
   }
 }
